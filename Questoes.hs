@@ -30,7 +30,7 @@ myenumFromThenTo x y z | x < y && x < z  = x : myenumFromThenTo y (y+(y-x)) z
 --(5)
 myreverse :: [a] -> [a] 
 myreverse [] = []
-myreveree (x:xs) = (myreverse xs) +++ [x]
+myreverse (x:xs) = (myreverse xs) +++ [x]
 
 --(6)
 mytake :: Int -> [a] -> [a]
@@ -52,6 +52,7 @@ mydrop n (x:xs)
 --8
 myzip :: [a] -> [b] -> [(a,b)]
 myzip _ [] = []
+myzip [] _ = []
 myzip (x:xs) (y:ys) = (x,y) : myzip xs ys
 
 --unzipp
@@ -84,12 +85,16 @@ myintersperce n [x] = [x]
 myintersperce y (x:xs) = x : y : myintersperce y xs
 
 --12
+{-
 mygroup :: Eq a => [a] -> [[a]]
 mygroup [] = []
 mygroup [x] = [[x]]
-mygroup (x:y:xs) | x == y = [x] : [y] : mygroup xs
-                 | x /= y = [x] : [y] : mygroup xs
+mygroup (x:y:xs) | x == y = [x] ++ [y] : mygroup (y:xs)
+                 | x /= y = [x] : mygroup (y:xs)
+                 -}
+                 
 
+-- This one is working :
 mgroup :: Eq a => [a] -> [[a]]
 mgroup [] = [[]]
 mgroup (x:xs) = aux6 [x] xs
